@@ -11,6 +11,7 @@
 ./server/dist
 ./server/dist-ssr
 ./server/*.local
+./client/README.md
 
 # Logs
 logs
