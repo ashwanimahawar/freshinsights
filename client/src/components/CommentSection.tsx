@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CommentProps } from "../interfaces/interfaces";
+import { CommentProps, Comments } from "../interfaces/interfaces";
 import { Heading1 } from "./Heading1";
 import { PrimaryButton } from "./PrimaryButton";
 import { ErrorMessage } from "./ErrorMessage";
@@ -36,7 +36,7 @@ export const CommentSection: React.FC<CommentProps> = ({
     }
   };
 
-  const postComments = comments?.filter((comment) => {
+  const postComments = comments?.filter((comment:Comments) => {
     return comment?.post_id === postId;
   });
 
@@ -67,7 +67,7 @@ export const CommentSection: React.FC<CommentProps> = ({
       <br />
       <Heading1 text="Comments" />
 
-      {postComments?.map((comment) => {
+      {postComments?.map((comment: Comments) => {
         return (
           <div
           key={comment.id} 

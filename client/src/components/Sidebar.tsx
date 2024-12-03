@@ -1,6 +1,6 @@
 import React from "react";
 import { Heading1 } from "./Heading1";
-import { AllPostProps } from "../interfaces/interfaces";
+import { AllPostProps, Post } from "../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
 
 const SubHeading2: React.FC<{
@@ -27,7 +27,7 @@ export const Sidebar: React.FC<AllPostProps> = ({ posts }) => {
     <div className="w-full md:w-[39%] lg:px-10 px-4 py-4 lg:py-10 border-[1px] border-border rounded-xl bg-secondary-background text-primary-text">
       <Heading1 text="All Posts" />
       <div className="my-5">
-        {posts?.map((post, i) => {
+        {posts?.map((post: Post, i: number) => {
           return (
             <SubHeading2
               key={post?.id}

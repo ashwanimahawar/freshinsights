@@ -62,7 +62,7 @@ export const CreatePost: React.FC = () => {
     if (fileInput) {
       const pond = FilePond.create(fileInput, {
         dropOnPage: true,
-        files: files.map((fileItems) => fileItems.file),
+        files: files.map((fileItems: FilePondFile) => fileItems.file),
         allowMultiple: false,
         required: true,
         name: "image",

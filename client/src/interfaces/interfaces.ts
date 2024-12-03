@@ -59,6 +59,18 @@ export interface ListItemProps {
   mailto?: string;
 }
 
+export interface TitleProps {
+  preblue?: string;
+  pre?: string;
+  postblue?: string;
+  post?: string;
+  align?: any;
+  margin?: string;
+  fontSize?: string;
+  padding?: string;
+}
+
+
 export interface Post {
   id?: number | string;
   title: string | undefined;

@@ -5,9 +5,8 @@ const PORT = 5000;
 
 //Default App.get
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, Welcome to Blog Arcade.");
+  res.send("Hello, Welcome to Fresh Insights!");
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -26,7 +26,6 @@ export const App: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [search, setSearch] = useState<string>("");
-  // eslint-disable-next-line
   const [currentPost, setCurrentPost] = useState<Post | null | undefined>(null);
   const [checkedUser, setCheckedUser] = useState<User>({
     id: null,
@@ -35,14 +34,27 @@ export const App: React.FC = () => {
     password: "",
   });
 
-  //Is Login
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  // Initialize isLogin state from localStorage
+  const [isLogin, setIsLogin] = useState<boolean>(() => {
+    const savedLoginStatus = localStorage.getItem("isLogin");
+    return savedLoginStatus === "true"; // Initialize to true if previously logged in
+  });
+
+  // Check authentication on initial mount only if isLogin is not set to true
   useEffect(() => {
-    checkUserAuth().then((res) => {
-      localStorage.setItem("isLogin", res?.data?.isAuthenticated);
-      setIsLogin(res?.data?.isAuthenticated);
-      setCheckedUser(res?.data?.USER);
-    });
+    if (isLogin) {
+      const checkAuth = async () => {
+        const res = await checkUserAuth();
+        console.log(res);
+        const isAuthenticated = res?.data?.isAuthenticated;
+
+        // Persist the login status in localStorage
+        localStorage.setItem("isLogin", isAuthenticated);
+        setIsLogin(isAuthenticated);
+        setCheckedUser(res?.data?.USER);
+      };
+      checkAuth();
+    }
   }, [isLogin]);
 
   //Load Posts
@@ -61,7 +73,7 @@ export const App: React.FC = () => {
     if (!search) {
       setFilteredPosts(posts);
     }
-    const searchedPosts = posts.filter((post) => {
+    const searchedPosts = posts.filter((post: Post) => {
       const searchText = search.toLowerCase();
       const matchedPosts = post?.title?.toLowerCase().includes(searchText);
 

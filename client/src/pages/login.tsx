@@ -25,6 +25,7 @@ export const Login: React.FC<LoginProps> = ({ setIsLogin }) => {
         setErrorMessage(res?.data?.message);
       } else {
         setIsLogin && setIsLogin(true);
+        localStorage.setItem("isLogin", "true");
         setUser({ email: "", password: "" });
         navigate("/dashboard");
       }

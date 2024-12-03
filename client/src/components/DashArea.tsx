@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Title } from "./Title";
 import { Heading1 } from "./Heading1";
-import { Comments, DashProps } from "../interfaces/interfaces";
+import { Comments, DashProps, Post } from "../interfaces/interfaces";
 import { TimeStamp } from "./TimeStamp";
 import { getComments } from "../services";
+import CircularProgress from "@mui/joy/CircularProgress";
+
+const LazyTitle = React.lazy(() =>
+  import("../components/Title").then((module) => ({ default: module.Title }))
+);
 
 export const DashArea: React.FC<DashProps> = ({ posts, checkedUser }) => {
   const [allComments, setAllComments] = useState<Comments[]>();
 
   const userId = checkedUser?.id;
-  const allUserPosts = posts?.filter((post) => {
+  const allUserPosts = posts?.filter((post: Post) => {
     return post?.user_id === userId;
   });
 
@@ -18,7 +23,7 @@ export const DashArea: React.FC<DashProps> = ({ posts, checkedUser }) => {
       setAllComments(res?.data?.comments);
     });
   };
-  const userComments = allComments?.filter((comment) => {
+  const userComments = allComments?.filter((comment: Comments) => {
     return comment?.user_id === userId;
   });
 
@@ -30,21 +35,41 @@ export const DashArea: React.FC<DashProps> = ({ posts, checkedUser }) => {
       <Title pre="Welcome to your " postblue="Dashboard!" />
       <div className="mb-10 text-primary-text border-[1px] border-border bg-secondary-background shadow rounded-lg px-2 py-6 lg:py-10 lg:px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-3 xl:grid-cols-3">
         <div className="flex justify-center flex-col items-center gap-5 lg:gap-3 w-full bg-background rounded-xl px-3 pt-10 pb-5 border-[1px] border-border">
-          <Title
-            padding="0px"
-            margin="0px"
-            fontSize="80px"
-            pre={allUserPosts?.length.toString()}
-          />
+          <Suspense
+            fallback={
+              <CircularProgress
+                color="primary"
+                determinate={false}
+                variant="soft"
+              />
+            }
+          >
+            <LazyTitle
+              padding="0px"
+              margin="0px"
+              fontSize="80px"
+              pre={allUserPosts?.length.toString()}
+            />
+          </Suspense>
           <Heading1 text="Total Posts" />
         </div>
         <div className="flex justify-center flex-col items-center gap-5 lg:gap-3 w-full bg-background rounded-xl px-3 pt-10 pb-5 border-[1px] border-border">
-          <Title
-            padding="0px"
-            margin="0px"
-            fontSize="80px"
-            pre={userComments?.length.toString()}
-          />
+          <Suspense
+            fallback={
+              <CircularProgress
+                color="primary"
+                determinate={false}
+                variant="soft"
+              />
+            }
+          >
+            <LazyTitle
+              padding="0px"
+              margin="0px"
+              fontSize="80px"
+              pre={userComments?.length.toString()}
+            />
+          </Suspense>
           <Heading1 text="Total Comments" />
         </div>
         <div className="flex justify-center flex-col items-center gap-0 w-full bg-background rounded-xl p-3 border-[1px] border-border">

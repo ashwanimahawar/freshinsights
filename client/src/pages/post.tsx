@@ -16,7 +16,7 @@ export const PostPage: React.FC<AllPostProps> = ({
 }) => {
   const { postId } = useParams<{ postId: string | undefined }>();
   const [comments, setComments] = useState<Comments[]>();
-  const thisPost: Post[] | undefined = filteredPosts?.filter((post) => {
+  const thisPost: Post[] | undefined = filteredPosts?.filter((post: Post) => {
     const idOfPost = post?.id?.toString();
     return idOfPost === postId;
   });

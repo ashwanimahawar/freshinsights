@@ -28,8 +28,8 @@ export const SignUp: React.FC<LoginProps> = ({ setIsLogin }) => {
       } else {
         alert("User Registered Successfully!");
         setIsLogin && setIsLogin(true);
+        localStorage.setItem("isLogin", "true");
         setUser({ name: "", email: "", password: "" });
-        window.location.reload();
         navigate("/dashboard");
       }
     } catch (err: any) {

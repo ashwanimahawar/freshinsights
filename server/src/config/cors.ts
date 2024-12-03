@@ -6,7 +6,7 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 
 export const corsOptions: cors.CorsOptions = {
-    origin: process.env.CORS_ALLOWED_ORIGINS,
+    origin: process.env.CORS_ALLOWED_ORIGINS ?? "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

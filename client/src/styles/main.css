@@ -3,7 +3,6 @@ body {
   padding: 0;
 }
 
-
 :root {
   --background: #000;
   --secondary-background: #121212;
@@ -121,8 +120,6 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #b0b0b0 var(--background);
 }
-
-
 
 h1,
 h2,

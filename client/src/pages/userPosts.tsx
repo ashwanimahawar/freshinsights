@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Title } from "../components/Title";
-import { AllPostProps } from "../interfaces/interfaces";
+import { AllPostProps, Post } from "../interfaces/interfaces";
 import { UserPostCards } from "../components/UserPostCards";
 import { Heading1 } from "../components/Heading1";
 import { DeleteButton } from "../components/DeleteButton";
@@ -22,7 +22,7 @@ export const UserPosts: React.FC<AllPostProps> = ({
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const userId = checkedUser?.id;
 
-  const userPosts = posts?.filter((post) => {
+  const userPosts = posts?.filter((post: Post) => {
     return post?.user_id === userId;
   });
 
@@ -66,7 +66,7 @@ export const UserPosts: React.FC<AllPostProps> = ({
           </div>
         )}
         <div className="w-full grid grid-cols-1 gap-3 xl:grid-cols-2">
-          {userPosts?.map((post) => {
+          {userPosts?.map((post: Post) => {
             return (
               <UserPostCards
                 onClick={() => navigate(`/post/${post.id}`)}

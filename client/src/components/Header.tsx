@@ -42,6 +42,7 @@ export const Header: React.FC<LoginProps> = ({ isLogin, setIsLogin }) => {
       const res = await logoutUser();
       if (res?.data?.status === 200) {
         setIsLogin && setIsLogin(false);
+        localStorage.setItem("isLogin", "false");
         navigate(res?.data?.redirect);
       }
     } catch (err: any) {
@@ -192,35 +193,36 @@ export const Header: React.FC<LoginProps> = ({ isLogin, setIsLogin }) => {
               text="Contact"
             />
             <div className="w-auto mx-3 my-10">
-            {isLogin ? (
-              <SecondaryButton
-                onClick={() => {
-                  logoutExistingUser();
-                  setIsMobileMenu(false);
-                }}
-                preIcon={<LogoutIcon />}
-                text="LogOut"
-              />
-            ) : (
-              <>
+              {isLogin ? (
                 <SecondaryButton
                   onClick={() => {
-                    navigate("/login");
+                    logoutExistingUser();
                     setIsMobileMenu(false);
                   }}
-                  preIcon={<LoginIcon />}
-                  text="LogIn"
+                  preIcon={<LogoutIcon />}
+                  text="LogOut"
                 />
-                <SecondaryButton
-                  onClick={() => {
-                    navigate("/signup");
-                    setIsMobileMenu(false);
-                  }}
-                  preIcon={<AppRegistrationIcon />}
-                  text="SignUp"
-                />
-              </>
-            )}</div>
+              ) : (
+                <>
+                  <SecondaryButton
+                    onClick={() => {
+                      navigate("/login");
+                      setIsMobileMenu(false);
+                    }}
+                    preIcon={<LoginIcon />}
+                    text="LogIn"
+                  />
+                  <SecondaryButton
+                    onClick={() => {
+                      navigate("/signup");
+                      setIsMobileMenu(false);
+                    }}
+                    preIcon={<AppRegistrationIcon />}
+                    text="SignUp"
+                  />
+                </>
+              )}
+            </div>
           </nav>
         </div>
       )}

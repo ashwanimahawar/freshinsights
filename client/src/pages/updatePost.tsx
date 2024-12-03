@@ -126,7 +126,7 @@ export const UpdatePost: React.FC<AllPostProps> = ({ post, setIsEditing }) => {
         <SubHeading pre="Upload A new Featured image, if you wish to change: " />
         <FilePond
           dropOnPage
-          files={updateFiles.map((filePondFile) => filePondFile.file)}
+          files={updateFiles.map((filePondFile: FilePondFile) => filePondFile.file)}
           allowMultiple={false}
           className="filepond"
           name="updatedImage"

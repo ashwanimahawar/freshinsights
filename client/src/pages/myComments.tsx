@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Title } from "../components/Title";
 import { CommentProps, Comments } from "../interfaces/interfaces";
 import { deleteComment, getComments } from "../services";
@@ -8,13 +8,20 @@ import { Paragraph } from "../components/Paragraph";
 import { DeleteButton } from "../components/DeleteButton";
 import { Delete } from "@mui/icons-material";
 import { AlertBox } from "../components/AlertBox";
-import { SubHeading } from "../components/SubHeading";
+import CircularProgress from "@mui/joy/CircularProgress";
+
+const LazySubHeading = React.lazy(() =>
+  import("../components/SubHeading").then((module) => ({
+    default: module.SubHeading,
+  }))
+);
 
 export const MyComments: React.FC<CommentProps> = ({ checkedUser }) => {
   const userid = checkedUser?.id;
   const [allCommentsNow, setAllCommentsNow] = useState<Comments[]>();
   const [commentId, setCommentId] = useState<string | number>();
   const [deleting, setDeleting] = useState<boolean>(false);
+  
   const loadAllComments = async () => {
     await getComments().then((res) => {
       setAllCommentsNow(res?.data?.comments);
@@ -23,7 +30,7 @@ export const MyComments: React.FC<CommentProps> = ({ checkedUser }) => {
   useEffect(() => {
     loadAllComments();
   }, []);
-  const userComments = allCommentsNow?.filter((comment) => {
+  const userComments = allCommentsNow?.filter((comment: Comments) => {
     return comment?.user_id === userid;
   });
 
@@ -53,7 +60,7 @@ export const MyComments: React.FC<CommentProps> = ({ checkedUser }) => {
               />
             </div>
           )}
-          {userComments?.map((comment) => {
+          {userComments?.map((comment: Comments) => {
             return (
               <div
                 key={comment.id}
@@ -76,13 +83,25 @@ export const MyComments: React.FC<CommentProps> = ({ checkedUser }) => {
           })}
         </div>
         {userComments?.length === 0 && (
-        <div className="border-[1px] border-border rounded-xl mx-auto w-full xl:w-[60%] px-4 py-4 text-center my-5">
-          <SubHeading
-            pre="No comments yet, get started by "
-            postblue="adding your first comment!"
-          />
-        </div>
-      )}
+          <div className="text-center">
+            <Suspense
+              fallback={
+                <CircularProgress
+                  color="primary"
+                  determinate={false}
+                  variant="soft"
+                />
+              }
+            >
+              <div className="border-[1px] border-border rounded-xl mx-auto w-full xl:w-[60%] px-4 py-4 text-center my-5">
+                <LazySubHeading
+                  pre="No comments yet, get started by "
+                  postblue="adding your first comment!"
+                />
+              </div>
+            </Suspense>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,40 @@
+version: '1.0'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  server:
+    build: ./server
+    container_name: server
+    ports:
+      - 5000:5000
+    volumes:
+      - ./server:/usr/src/app
+      - ./.env:/usr/src/app/.env
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+
+  client:
+    build: ./client
+    container_name: client
+    ports:
+      - 5173:5173
+    volumes:
+      - ./.env:/usr/src/app/.env
+    depends_on:
+      - server
+
+volumes:
+  postgres-db:

@@ -1,15 +1,6 @@
 import React from "react";
+import { TitleProps } from "../interfaces/interfaces";
 
-interface TitleProps {
-  preblue?: string;
-  pre?: string;
-  postblue?: string;
-  post?: string;
-  align?: any;
-  margin?: string;
-  fontSize?: string;
-  padding?: string;
-}
 
 export const Title: React.FC<TitleProps> = ({
   preblue,
