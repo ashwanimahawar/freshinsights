@@ -1,9 +1,9 @@
 FROM node:lts-alpine AS builder
 WORKDIR /usr/src/app
-COPY package.json ./
+COPY ./server/package.json ./
 RUN npm install
 RUN npm install -g typescript 
-COPY . .
+COPY ./server .
 RUN npm run build
 
 FROM node:lts-alpine AS runner
