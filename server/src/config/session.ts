@@ -11,5 +11,8 @@ export const sessionConfig = session({
   saveUninitialized: true,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    secure: true,         // cookie only sent over HTTPS
+    sameSite: "none",     // required for cross-site (Cloudflare Pages ↔ Render)
+    httpOnly: true,
   },
 });
