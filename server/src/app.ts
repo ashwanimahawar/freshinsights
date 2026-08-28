@@ -26,6 +26,7 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
 //Managing Sessions
+app.set("trust proxy", 1);
 app.use(sessionConfig);
 
 //Passport Configuration (This should be just after the session configuration)
